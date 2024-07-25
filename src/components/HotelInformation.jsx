@@ -10,16 +10,23 @@ import {
   Select,
   Breadcrumbs,
 } from "@mui/material";
+
 import { Filter } from "./Filter";
+import { HotelCards } from "./HotelCards";
+
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
+import { useParams } from "react-router-dom";
+
 export function HotelInformation() {
+  const { location } = useParams();
+
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
-      Chennai
+      {location}
     </Typography>,
     <Typography key="3" color="text.primary">
-      Chennai Restaurents
+      {location} Restaurents
     </Typography>,
   ];
 
@@ -28,14 +35,14 @@ export function HotelInformation() {
       container
       display={"flex"}
       flexDirection={"row"}
-      gap={1}
+      gap={2}
       width={"100%"}
       marginTop={1}
     >
       <Grid item maxWidth={"30%"}>
         <Filter />
       </Grid>
-      <Grid item width={"65%"}>
+      <Grid item width={"75%"}>
         <Grid container gap={2} flexDirection={"column"}>
           <Grid item>
             <Breadcrumbs
@@ -50,7 +57,7 @@ export function HotelInformation() {
               <Grid item>
                 <Grid container alignItems={"center"} gap={1}>
                   <Typography key="3" variant="h5" color="text.primary">
-                    Best Restaurants Near Me in Chennai
+                    Best Restaurants Near Me in {location}
                   </Typography>
 
                   <Typography key="3" variant="caption" color="text.primary">
@@ -85,16 +92,20 @@ export function HotelInformation() {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={10}
+                        value={1}
                         label="Age"
                         onChange={() => {}}
                         style={{
                           verticalAlign: "baseline",
                         }}
                       >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {sortData.map((element) => {
+                          return (
+                            <MenuItem key={element.value} value={element.value}>
+                              {element.name}
+                            </MenuItem>
+                          );
+                        })}
                       </Select>
                     </FormControl>
                   </Grid>
@@ -102,9 +113,17 @@ export function HotelInformation() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>3</Grid>
+          <Grid item>
+            <HotelCards location={location} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 }
+
+const sortData = [
+  { value: 1, name: "Rating" },
+  { value: 2, name: "Price Low to High" },
+  { value: 3, name: "Price High to Low" },
+];

@@ -12,8 +12,18 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 
 import { HeaderSubText } from "./HeaderSubText";
+import { RegistrationModal } from "./RegistrationModal";
+
+import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
 
 export function Navbar() {
+  const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [modalType, setModalType] = useState("login");
+
   return (
     <Grid container width={"100%"}>
       <Grid item width={"100%"}>
@@ -32,6 +42,10 @@ export function Navbar() {
             </Grid>
             <Grid item>
               <Autocomplete
+                onChange={(event) => {
+                  console.log(event.target.innerHTML, "element");
+                  navigate("/" + event.target.innerHTML);
+                }}
                 disablePortal
                 id="location-options"
                 options={Locations}
@@ -59,16 +73,39 @@ export function Navbar() {
               </FormControl>
             </Grid>
             <Grid item>
-              <Button variant="contained">Log in</Button>
+              <Button
+                variant="contained"
+                onClick={(e) => {
+                  setOpen(true);
+                  setModalType("login");
+                }}
+              >
+                Log in
+              </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained">Register</Button>
+              <Button
+                variant="contained"
+                onClick={(e) => {
+                  setOpen(true);
+                  setModalType("register");
+                }}
+              >
+                Register
+              </Button>
             </Grid>
           </Grid>
 
           <HeaderSubText />
         </AppBar>
       </Grid>
+      {open && (
+        <RegistrationModal
+          modalType={modalType}
+          open={open}
+          setOpen={() => setOpen(!open)}
+        />
+      )}
     </Grid>
   );
 }
