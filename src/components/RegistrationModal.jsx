@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Grid, TextField } from "@mui/material";
 
+import axios from "axios";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -29,6 +31,29 @@ export function RegistrationModal({ open, setOpen, modalType }) {
 
   const handleSubmit = () => {
     console.log(formState);
+
+    if (modalType === "register") {
+      axios
+        .post("http://localhost:4001/registeruser", {
+          ...formState,
+        })
+        .then((response) => {
+          localStorage.setItem("username", response.data);
+          setOpen(false);
+          console.log(response.data);
+        });
+    } else {
+      axios
+        .post("http://localhost:4001/validateuser", {
+          username: formState.username,
+          password: formState.password,
+        })
+        .then((response) => {
+          localStorage.setItem("username", response.data);
+          setOpen(false);
+          console.log(response);
+        });
+    }
   };
 
   return (

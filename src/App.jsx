@@ -7,7 +7,20 @@ import { HotelInformation } from "./components/HotelInformation";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import axios from "axios";
+import { useEffect } from "react";
+
 function App() {
+  useEffect(() => {
+    axios
+      .post("http://localhost:4001/testcors", {
+        username: "test user",
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }, []);
+
   const RootNode = () => (
     <Grid container width={"100%"}>
       <Navbar />

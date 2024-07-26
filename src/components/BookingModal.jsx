@@ -13,12 +13,18 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import Chip from "@mui/material/Chip";
 
-export function BookingModal({ open, setOpen, hotelId }) {
+import axios from "axios";
+
+export function BookingModal({ open, setOpen, hotelId = "" }) {
+  const username = localStorage.getItem("username");
+
   const [bookingState, setBookingState] = React.useState({
     selectedTime: "",
     selectedSeats: "",
     selectedDate: "",
   });
+
+  const [bookedSlots, setBookedSlots] = React.useState([]);
 
   const style = {
     position: "absolute",
@@ -31,15 +37,57 @@ export function BookingModal({ open, setOpen, hotelId }) {
     boxShadow: 24,
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = async (date) => {
     const month = new Date(date).getMonth() + 1;
     const year = new Date(date).getFullYear();
     const day = new Date(date).getDate();
 
+    const myDate = `${day}-${month}-${year}`;
+
     setBookingState({
       ...bookingState,
-      selectedDate: `${day}-${month}-${year}`,
+      selectedDate: myDate,
     });
+
+    if (hotelId && myDate) {
+      const response = await axios.post(
+        "http://localhost:4001/getBookedSlots",
+        {
+          selectedDate: myDate,
+          hotelId,
+        }
+      );
+
+      if (response.data?.length) {
+        setBookedSlots(response.data);
+      }
+    }
+  };
+
+  const handleBooking = () => {
+    console.log(bookingState, username);
+
+    const { selectedDate, selectedTime, selectedSeats } = bookingState;
+
+    if (
+      username.length &&
+      selectedDate.length &&
+      selectedTime.length &&
+      selectedSeats &&
+      hotelId.length
+    ) {
+      axios
+        .post("http://localhost:4001/createBooking", {
+          ...bookingState,
+          username,
+          hotelId,
+        })
+        .then((response) => {
+          if (response.data === "Booking Created success") {
+            setOpen();
+          }
+        });
+    }
   };
 
   return (
@@ -113,6 +161,7 @@ export function BookingModal({ open, setOpen, hotelId }) {
                         <Chip
                           label={ele}
                           variant="outlined"
+                          disabled={bookedSlots.includes(ele) ? true : false}
                           color={
                             ele === bookingState.selectedTime
                               ? "success"
@@ -132,12 +181,7 @@ export function BookingModal({ open, setOpen, hotelId }) {
               </Grid>
 
               <Grid item paddingBottom={4}>
-                <Button
-                  variant="contained"
-                  onClick={(e) => {
-                    console.log(bookingState);
-                  }}
-                >
+                <Button variant="contained" onClick={handleBooking}>
                   Make Booking
                 </Button>
               </Grid>

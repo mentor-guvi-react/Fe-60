@@ -14,7 +14,7 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export function Filter() {
+export function Filter({ handleFilterChange }) {
   return (
     <div>
       <Accordion>
@@ -29,7 +29,12 @@ export function Filter() {
           {quickFilter.map((ele, index) => {
             return (
               <FormGroup key={index}>
-                <FormControlLabel control={<Checkbox />} label={ele} />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label={ele}
+                  onChange={handleFilterChange}
+                  value={ele}
+                />
               </FormGroup>
             );
           })}
@@ -47,7 +52,12 @@ export function Filter() {
           {cuisniesFilter.map((ele, index) => {
             return (
               <FormGroup key={index}>
-                <FormControlLabel control={<Checkbox />} label={ele} />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label={ele}
+                  onChange={handleFilterChange}
+                  value={ele}
+                />
               </FormGroup>
             );
           })}
@@ -65,7 +75,12 @@ export function Filter() {
           {tagsFilter.map((ele, index) => {
             return (
               <FormGroup key={index}>
-                <FormControlLabel control={<Checkbox />} label={ele} />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label={ele}
+                  onChange={handleFilterChange}
+                  value={ele}
+                />
               </FormGroup>
             );
           })}
@@ -75,7 +90,7 @@ export function Filter() {
   );
 }
 
- const quickFilter = [
+const quickFilter = [
   `3 Star`,
   `Buffet`,
   `Chinese`,
@@ -86,7 +101,7 @@ export function Filter() {
   `Pure Veg`,
 ];
 
- const cuisniesFilter = [
+const cuisniesFilter = [
   `American`,
   `Bengali`,
   `Cantonese`,
@@ -131,7 +146,7 @@ export function Filter() {
   `North Eastern`,
 ];
 
- const tagsFilter = [
+const tagsFilter = [
   `1 plus 1 on Food and Drinks`,
   `Barbeque Nation Super Savers`,
   `Best Buffet`,

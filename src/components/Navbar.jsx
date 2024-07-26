@@ -13,6 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { HeaderSubText } from "./HeaderSubText";
 import { RegistrationModal } from "./RegistrationModal";
+import { MyBookingModal } from "./MyBookingModal";
 
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +24,10 @@ export function Navbar() {
 
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState("login");
+
+  const [bookingModelOpen, setBookingModelOpen] = useState(false);
+
+  const username = localStorage.getItem("username");
 
   return (
     <Grid container width={"100%"}>
@@ -72,28 +77,57 @@ export function Navbar() {
                 />
               </FormControl>
             </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                onClick={(e) => {
-                  setOpen(true);
-                  setModalType("login");
-                }}
-              >
-                Log in
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                onClick={(e) => {
-                  setOpen(true);
-                  setModalType("register");
-                }}
-              >
-                Register
-              </Button>
-            </Grid>
+
+            {username ? (
+              <>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      setBookingModelOpen(true);
+                    }}
+                  >
+                    My Booking
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      localStorage.setItem("username", "");
+                      window.location.reload();
+                    }}
+                  >
+                    Log out
+                  </Button>
+                </Grid>
+              </>
+            ) : (
+              <>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      setOpen(true);
+                      setModalType("login");
+                    }}
+                  >
+                    Log in
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      setOpen(true);
+                      setModalType("register");
+                    }}
+                  >
+                    Register
+                  </Button>
+                </Grid>
+              </>
+            )}
           </Grid>
 
           <HeaderSubText />
@@ -104,6 +138,13 @@ export function Navbar() {
           modalType={modalType}
           open={open}
           setOpen={() => setOpen(!open)}
+        />
+      )}
+
+      {bookingModelOpen && (
+        <MyBookingModal
+          bookingModelOpen={bookingModelOpen}
+          setBookingModelOpen={() => setBookingModelOpen(!bookingModelOpen)}
         />
       )}
     </Grid>

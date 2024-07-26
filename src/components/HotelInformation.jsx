@@ -11,6 +11,8 @@ import {
   Breadcrumbs,
 } from "@mui/material";
 
+import React from "react";
+
 import { Filter } from "./Filter";
 import { HotelCards } from "./HotelCards";
 
@@ -19,6 +21,8 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useParams } from "react-router-dom";
 
 export function HotelInformation() {
+  const [selectedTags, setSelectedTags] = React.useState([]);
+
   const { location } = useParams();
 
   const breadcrumbs = [
@@ -30,6 +34,16 @@ export function HotelInformation() {
     </Typography>,
   ];
 
+  const handleFilterChange = (event) => {
+    if (selectedTags.find((e) => e === event.target.value)) {
+      const updatedTags = selectedTags.filter((e) => e !== event.target.value);
+      setSelectedTags([...updatedTags]);
+      return;
+    }
+    setSelectedTags([...selectedTags, event.target.value]);
+  };
+
+  console.log(selectedTags, "selectedTags");
   return (
     <Grid
       container
@@ -40,7 +54,7 @@ export function HotelInformation() {
       marginTop={1}
     >
       <Grid item maxWidth={"30%"}>
-        <Filter />
+        <Filter handleFilterChange={handleFilterChange} />
       </Grid>
       <Grid item width={"75%"}>
         <Grid container gap={2} flexDirection={"column"}>
