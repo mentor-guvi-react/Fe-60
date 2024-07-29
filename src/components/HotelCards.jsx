@@ -15,13 +15,84 @@ import { BookingModal } from "./BookingModal";
 
 import { useState } from "react";
 
-export function HotelCards({ location }) {
+export function HotelCards({
+  location,
+  selectedTags = [],
+  searchedHotel,
+  selectedSort,
+}) {
   const [hotelId, setHotelId] = useState("");
+
+  let selectedLocation = location?.toLowerCase() || "delhi";
+  let availableRestaurant = restaurant[selectedLocation];
+
+  // Filter Based on Tags
+  if (selectedTags?.length)
+    availableRestaurant = availableRestaurant.filter((eachRestaurent) => {
+      let matchFound = false;
+      eachRestaurent.tags.forEach((ele) => {
+        if (selectedTags?.includes(ele)) {
+          matchFound = true;
+          return;
+        }
+      });
+      return matchFound;
+    });
+
+  // Filter Based on User search
+  if (searchedHotel?.length) {
+    availableRestaurant = availableRestaurant.filter((eachRestaurent) => {
+      if (
+        eachRestaurent.name.toLowerCase().includes(searchedHotel.toLowerCase())
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }
+
+  // Handles Sorting Scenarios
+  const handleRatingSort = () => {
+    availableRestaurant.sort((a, b) => {
+      if (a.ratings > b.ratings) {
+        return -1;
+      }
+      return 1;
+    });
+  };
+
+  const handlePlToPh = () => {
+    availableRestaurant.sort((a, b) => {
+      if (Number(a.price) > Number(b.price)) {
+        return 1;
+      }
+      return -1;
+    });
+  };
+
+  const handlePhToPl = () => {
+    availableRestaurant.sort((a, b) => {
+      if (Number(a.price) > Number(b.price)) {
+        return -1;
+      }
+      return 1;
+    });
+  };
+
+  if (selectedSort) {
+    if (selectedSort === 1) {
+      handleRatingSort();
+    } else if (selectedSort === 2) {
+      handlePlToPh();
+    } else if (selectedSort === 3) {
+      handlePhToPl();
+    }
+  }
 
   return (
     <>
       <Grid container gap={1}>
-        {restaurant[location?.toLowerCase()].map((eachHotel) => {
+        {availableRestaurant.map((eachHotel, index) => {
           return (
             <Grid
               item
@@ -53,6 +124,21 @@ export function HotelCards({ location }) {
                   >
                     {eachHotel.ratings}
                   </div>
+
+                  {index % 2 == 0 && (
+                    <div
+                      style={{
+                        color: "white",
+                        background: "rgb(87 175 242 / 59%)",
+                        position: "absolute",
+                        width: "100%",
+                        bottom: 0,
+                        fontWeight: 900,
+                      }}
+                    >
+                      Popular for Food
+                    </div>
+                  )}
                 </div>
 
                 <CardContent>
@@ -92,7 +178,7 @@ const restaurant = {
       location: "Karol Bagh, Central Delhi",
       price: "3000",
       priceDetail: "₹ 3,000 for 2 approx",
-      tags: ["American", "Bengali", "5 Star", "Buffet", "Bakery"],
+      tags: ["American", "Bengali", "5 Star", "Buffet", "Bakery"], // ['5 star' , 'Buffet']
       ratings: "8.5",
       image:
         "https://img.freepik.com/free-photo/vertical-shot-traditional-indian-paneer-butter-masala-cheese-cottage-curry-black-surface_181624-32001.jpg?size=626&ext=jpg&ga=GA1.1.51770993.1710842715&semt=sph",

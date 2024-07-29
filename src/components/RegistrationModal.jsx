@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import { Grid, TextField } from "@mui/material";
 
 import axios from "axios";
+import { StyledButton } from "./StyledButton";
 
 const style = {
   position: "absolute",
@@ -171,9 +172,12 @@ export function RegistrationModal({ open, setOpen, modalType }) {
             )}
 
             <Grid item>
-              <Button variant="contained" fullWidth onClick={handleSubmit}>
-                {modalType === "register" ? `Register` : `Log In`}
-              </Button>
+              <StyledButton
+                variant="contained"
+                fullWidth
+                onClick={handleSubmit}
+                text={modalType === "register" ? `Register` : `Log In`}
+              ></StyledButton>
             </Grid>
           </Grid>
         </Box>

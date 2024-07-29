@@ -1,9 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Grid, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -39,7 +37,6 @@ export function MyBookingModal({ bookingModelOpen, setBookingModelOpen }) {
       });
   };
 
-
   React.useEffect(() => {
     getBookings();
   }, []);
@@ -64,6 +61,8 @@ export function MyBookingModal({ bookingModelOpen, setBookingModelOpen }) {
     </div>
   );
 }
+
+// TO Be created as sepearate component
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

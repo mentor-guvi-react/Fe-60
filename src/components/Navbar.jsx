@@ -19,7 +19,9 @@ import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
-export function Navbar() {
+import { StyledButton } from "./StyledButton";
+
+export function Navbar({ setSearchedHotel, searchedHotel }) {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -63,6 +65,8 @@ export function Navbar() {
             <Grid item>
               <FormControl variant="filled" style={{ width: 330 }}>
                 <Input
+                  value={searchedHotel}
+                  onChange={(e) => setSearchedHotel(e.target.value)}
                   placeholder="Seach for Hotels"
                   startAdornment={
                     <InputAdornment>
@@ -105,26 +109,22 @@ export function Navbar() {
             ) : (
               <>
                 <Grid item>
-                  <Button
-                    variant="contained"
+                  <StyledButton
                     onClick={(e) => {
                       setOpen(true);
                       setModalType("login");
                     }}
-                  >
-                    Log in
-                  </Button>
+                    text={"Log in"}
+                  ></StyledButton>
                 </Grid>
                 <Grid item>
-                  <Button
-                    variant="contained"
+                  <StyledButton
                     onClick={(e) => {
                       setOpen(true);
                       setModalType("register");
                     }}
-                  >
-                    Register
-                  </Button>
+                    text={"Register"}
+                  ></StyledButton>
                 </Grid>
               </>
             )}

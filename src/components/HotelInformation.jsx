@@ -20,8 +20,9 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 import { useParams } from "react-router-dom";
 
-export function HotelInformation() {
+export function HotelInformation({ searchedHotel }) {
   const [selectedTags, setSelectedTags] = React.useState([]);
+  const [selectedSort, setSelectedSort] = React.useState(1);
 
   const { location } = useParams();
 
@@ -43,7 +44,7 @@ export function HotelInformation() {
     setSelectedTags([...selectedTags, event.target.value]);
   };
 
-  console.log(selectedTags, "selectedTags");
+  console.log(selectedSort, "selectedSort");
   return (
     <Grid
       container
@@ -106,9 +107,11 @@ export function HotelInformation() {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={1}
+                        value={selectedSort}
                         label="Age"
-                        onChange={() => {}}
+                        onChange={(event) => {
+                          setSelectedSort(event.target.value);
+                        }}
                         style={{
                           verticalAlign: "baseline",
                         }}
@@ -128,7 +131,12 @@ export function HotelInformation() {
             </Grid>
           </Grid>
           <Grid item>
-            <HotelCards location={location} />
+            <HotelCards
+              selectedTags={selectedTags}
+              location={location}
+              searchedHotel={searchedHotel}
+              selectedSort={selectedSort}
+            />
           </Grid>
         </Grid>
       </Grid>

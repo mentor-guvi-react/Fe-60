@@ -6,26 +6,31 @@ import { Navbar } from "./components/Navbar";
 import { HotelInformation } from "./components/HotelInformation";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
-import axios from "axios";
-import { useEffect } from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
-  useEffect(() => {
-    axios
-      .post("http://localhost:4001/testcors", {
-        username: "test user",
-      })
-      .then((res) => {
-        console.log(res);
-      });
-  }, []);
+  const [searchedHotel, setSearchedHotel] = useState("");
 
   const RootNode = () => (
-    <Grid container width={"100%"}>
-      <Navbar />
-      <HotelInformation />
-    </Grid>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Grid container width={"100%"}>
+        <Navbar
+          setSearchedHotel={setSearchedHotel}
+          searchedHotel={searchedHotel}
+        />
+        <HotelInformation searchedHotel={searchedHotel} />
+      </Grid>
+    </ThemeProvider>
   );
 
   return (

@@ -14,6 +14,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Chip from "@mui/material/Chip";
 
 import axios from "axios";
+import { StyledButton } from "./StyledButton";
 
 export function BookingModal({ open, setOpen, hotelId = "" }) {
   const username = localStorage.getItem("username");
@@ -181,9 +182,11 @@ export function BookingModal({ open, setOpen, hotelId = "" }) {
               </Grid>
 
               <Grid item paddingBottom={4}>
-                <Button variant="contained" onClick={handleBooking}>
-                  Make Booking
-                </Button>
+                <StyledButton
+                  variant="contained"
+                  onClick={handleBooking}
+                  text={" Make Booking"}
+                ></StyledButton>
               </Grid>
             </Grid>
           </Box>

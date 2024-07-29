@@ -17,16 +17,16 @@ export function HeaderSubText() {
       justifyContent={"center"}
       alignItems={"center"}
       gap={10}
-        style={{ borderTop: "1px solid #7d79795c" }}
+      style={{ borderTop: "1px solid #7d79795c" }}
     >
       <Grid item>
-        <Button color="primary">Home</Button>
+        <Button style={{ color: "#02AAB0" }}>Home</Button>
       </Grid>
       <Grid item>
-        <Button color="primary">Book A table</Button>
+        <Button style={{ color: "#02AAB0" }}>Book A table</Button>
       </Grid>
       <Grid item>
-        <Button color="primary">Blog</Button>
+        <Button style={{ color: "#02AAB0" }}>Blog</Button>
       </Grid>
     </Grid>
   );
