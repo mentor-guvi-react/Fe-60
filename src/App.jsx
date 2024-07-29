@@ -20,6 +20,7 @@ const darkTheme = createTheme({
 function App() {
   const [searchedHotel, setSearchedHotel] = useState("");
 
+
   const RootNode = () => (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

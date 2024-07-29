@@ -1,0 +1,1 @@
+export const apiUrl = import.meta.env.VITE_API_CONFIG === 'production' ? 'https://node-60.onrender.com/' : 'http://localhost:4001/'

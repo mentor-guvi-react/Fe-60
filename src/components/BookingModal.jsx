@@ -15,6 +15,7 @@ import Chip from "@mui/material/Chip";
 
 import axios from "axios";
 import { StyledButton } from "./StyledButton";
+import { apiUrl } from "../api";
 
 export function BookingModal({ open, setOpen, hotelId = "" }) {
   const username = localStorage.getItem("username");
@@ -51,13 +52,10 @@ export function BookingModal({ open, setOpen, hotelId = "" }) {
     });
 
     if (hotelId && myDate) {
-      const response = await axios.post(
-        "http://localhost:4001/getBookedSlots",
-        {
-          selectedDate: myDate,
-          hotelId,
-        }
-      );
+      const response = await axios.post(apiUrl + "getBookedSlots", {
+        selectedDate: myDate,
+        hotelId,
+      });
 
       if (response.data?.length) {
         setBookedSlots(response.data);
@@ -78,7 +76,7 @@ export function BookingModal({ open, setOpen, hotelId = "" }) {
       hotelId.length
     ) {
       axios
-        .post("http://localhost:4001/createBooking", {
+        .post(apiUrl + "createBooking", {
           ...bookingState,
           username,
           hotelId,

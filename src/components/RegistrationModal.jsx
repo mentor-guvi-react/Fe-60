@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Grid, TextField } from "@mui/material";
 
+import { apiUrl } from "../api";
+
 import axios from "axios";
 import { StyledButton } from "./StyledButton";
 
@@ -35,7 +37,7 @@ export function RegistrationModal({ open, setOpen, modalType }) {
 
     if (modalType === "register") {
       axios
-        .post("http://localhost:4001/registeruser", {
+        .post(apiUrl + "registeruser", {
           ...formState,
         })
         .then((response) => {
@@ -45,7 +47,7 @@ export function RegistrationModal({ open, setOpen, modalType }) {
         });
     } else {
       axios
-        .post("http://localhost:4001/validateuser", {
+        .post(apiUrl + "validateuser", {
           username: formState.username,
           password: formState.password,
         })

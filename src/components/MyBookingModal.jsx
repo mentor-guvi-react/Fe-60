@@ -12,6 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import axios from "axios";
+import { apiUrl } from "../api";
 
 const style = {
   position: "absolute",
@@ -30,11 +31,9 @@ export function MyBookingModal({ bookingModelOpen, setBookingModelOpen }) {
   const getBookings = () => {
     const username = localStorage.getItem("username");
 
-    axios
-      .get("http://localhost:4001/mybooking/" + username)
-      .then((response) => {
-        setBookingRecords(response.data);
-      });
+    axios.get(apiUrl + "mybooking/" + username).then((response) => {
+      setBookingRecords(response.data);
+    });
   };
 
   React.useEffect(() => {
@@ -89,7 +88,7 @@ function BookingTable({ bookingRecords, setBookingModelOpen }) {
 
   const handleCancelBooking = (row) => {
     axios
-      .put("http://localhost:4001/cancelBooking", {
+      .put(apiUrl + "cancelBooking", {
         bookingId: row._id,
       })
       .then((response) => {
